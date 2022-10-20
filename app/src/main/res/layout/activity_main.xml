@@ -36,7 +36,7 @@
             android:ems="10"
             android:minHeight="50dp"
             android:hint="@string/product_price"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/add" />
+            android:text="@string/add"
+            android:onClick="newProduct"/>
 
         <Button
             android:id="@+id/findBtn"
@@ -62,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/find" />
+            android:text="@string/find"
+            android:onClick="lookupProduct"/>
 
         <Button
             android:id="@+id/deleteBtn"
@@ -70,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/delete" />
+            android:text="@string/delete"
+            android:onClick="removeProduct"/>
     </LinearLayout>
 
     <LinearLayout

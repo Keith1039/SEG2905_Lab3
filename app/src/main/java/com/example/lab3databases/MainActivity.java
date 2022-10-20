@@ -2,6 +2,7 @@ package com.example.lab3databases;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.util.ArrayList;
 
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         viewProducts();
     }
 
@@ -89,11 +90,59 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                productList.add(cursor.getString(1) + " (" +cursor.getString(2)+")");
+                productList.add(cursor.getString(1) + ": " +cursor.getString(2));
             }
         }
-
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productList);
         productListView.setAdapter(adapter);
     }
+
+
+    @SuppressLint("SetTextI18n")
+    public void newProduct(View view){
+        MyDBHandler dbHandler = new MyDBHandler(this);
+
+        double price = Double.parseDouble(productName.getText().toString());
+
+        Product product = new Product(productName.getText().toString(), price);
+
+        dbHandler.addProduct(product);
+
+        productName.setText(" ");
+        productPrice.setText(" ");
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void lookupProduct(View view){
+        MyDBHandler dbHandler = new MyDBHandler(this);
+
+        Product product = dbHandler.findProduct(productName.getText().toString());
+
+        if(product != null){
+            productId.setText(String.valueOf(product.getId()));
+            productPrice.setText(String.valueOf(product.getProductPrice()));
+        }else{
+            productId.setText("No Match Found");
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void removeProduct(View view){
+        MyDBHandler dbHandler = new MyDBHandler(this);
+
+        boolean result = dbHandler.deleteProduct(productName.getText().toString());
+        System.out.println(productName.getText().toString());
+
+        if(result){
+            productId.setText("Record Deleted");
+            productName.setText(" ");
+            productPrice.setText(" ");
+        }else{
+            productId.setText("No Match Found");
+        }
+    }
+
+
+
+
 }
