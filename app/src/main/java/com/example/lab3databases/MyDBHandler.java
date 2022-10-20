@@ -80,7 +80,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
 
-        String query = "SELECT * FROM " + TABLE_NAME + "WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productname + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " =\"" + productname + "\"";
         Cursor cursor = db.rawQuery(query, null);
 
         if(cursor.moveToFirst()){

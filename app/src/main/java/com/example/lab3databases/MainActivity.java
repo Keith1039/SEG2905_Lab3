@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         productList = new ArrayList<>();
 
         // info layout
-        productId = findViewById(R.id.productId);
-        productName = findViewById(R.id.productName);
-        productPrice = findViewById(R.id.productPrice);
+        productId = (TextView) findViewById(R.id.productId);
+        productName = (EditText) findViewById(R.id.productName);
+        productPrice = (EditText) findViewById(R.id.productPrice);
 
         //buttons
         addBtn = findViewById(R.id.addBtn);
