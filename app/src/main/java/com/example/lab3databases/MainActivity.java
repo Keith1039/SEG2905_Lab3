@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 Product product = new Product(name, price);
                 dbHandler.addProduct(product);
 
+
                 productName.setText("");
                 productPrice.setText("");
 
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Find product", Toast.LENGTH_SHORT).show();
+                lookupProduct(v);
             }
         });
 
@@ -77,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Delete product", Toast.LENGTH_SHORT).show();
+                removeProduct(v);
+                viewProducts();
             }
         });
 
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         productListView.setAdapter(adapter);
     }
 
-
+//Adding is done
     @SuppressLint("SetTextI18n")
     public void newProduct(View view){
         MyDBHandler dbHandler = new MyDBHandler(this);
@@ -108,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
         dbHandler.addProduct(product);
 
-        productName.setText(" ");
-        productPrice.setText(" ");
+        productName.setText("");
+        productPrice.setText("");
     }
 
     @SuppressLint("SetTextI18n")
@@ -131,12 +135,11 @@ public class MainActivity extends AppCompatActivity {
         MyDBHandler dbHandler = new MyDBHandler(this);
 
         boolean result = dbHandler.deleteProduct(productName.getText().toString());
-        System.out.println(productName.getText().toString());
-
+//Deletion is done
         if(result){
             productId.setText("Record Deleted");
-            productName.setText(" ");
-            productPrice.setText(" ");
+            productName.setText("");
+            productPrice.setText("");
         }else{
             productId.setText("No Match Found");
         }

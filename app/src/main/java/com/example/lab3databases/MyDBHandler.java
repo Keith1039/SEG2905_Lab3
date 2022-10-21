@@ -52,10 +52,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //got to rework this entire method
     public Product findProduct(String productName){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_NAME + "WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -75,19 +76,20 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public boolean deleteProduct(String productname){
+    public boolean deleteProduct(String productName){
         boolean result = false;
         SQLiteDatabase db = this.getWritableDatabase();
 
 
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " =\"" + productname + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " =\"" + productName + "\"";
         Cursor cursor = db.rawQuery(query, null);
 
         if(cursor.moveToFirst()){
-            String idStr = cursor.getString(0);
-            db.delete(TABLE_NAME, COLUMN_ID + " = " + idStr, null);
-            cursor.close();
+            String idStr = cursor.getString(1);
+            //changed db.delete to look for matching Product Name rather than matching Product ID
+            db.delete(TABLE_NAME, COLUMN_PRODUCT_NAME + " = \"" + idStr + "\"",  null);
             result = true;
+            cursor.close();
         }
         db.close();
         return result;
