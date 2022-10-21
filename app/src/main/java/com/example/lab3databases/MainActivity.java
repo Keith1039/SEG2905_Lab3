@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Find product", Toast.LENGTH_SHORT).show();
                 lookupProduct(v);
+                viewProducts();
             }
         });
 
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = dbHandler.getData();
         if (cursor.getCount() == 0) {
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
             while (cursor.moveToNext()) {
                 productList.add(cursor.getString(1) + ": " +cursor.getString(2));
             }
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productList);
         productListView.setAdapter(adapter);
     }
+
 
 //Adding is done
     @SuppressLint("SetTextI18n")
@@ -119,8 +122,15 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     public void lookupProduct(View view){
         MyDBHandler dbHandler = new MyDBHandler(this);
+        Product product = new Product();
 
-        Product product = dbHandler.findProduct(productName.getText().toString());
+        if(productPrice.length() == 0) {
+            product = dbHandler.findProduct(productName.getText().toString());
+        }else if(productName.length() == 0){
+            product = dbHandler.findProduct(Double.parseDouble(productPrice.getText().toString()));
+        }else{
+            product = dbHandler.findProduct(productName.getText().toString(), Double.parseDouble(productPrice.getText().toString()));
+        }
 
         if(product != null){
             productId.setText(String.valueOf(product.getId()));
