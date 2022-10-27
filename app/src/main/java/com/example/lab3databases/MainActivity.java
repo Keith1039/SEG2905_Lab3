@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -144,14 +145,13 @@ public class MainActivity extends AppCompatActivity {
 
         //right now, this is setting the price box to equal the price of the first match
         //not sure why they had us do this?
+        productList.clear();
         if (cursor.getCount() == 0) {
             productList.clear();
             Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         }
         else {
             while (cursor.moveToNext()) {
-                productList.clear();
-                Toast.makeText(MainActivity.this, "In List addition", Toast.LENGTH_SHORT).show();
                 productList.add(cursor.getString(1) + ": " +cursor.getString(2));
             }
         }
