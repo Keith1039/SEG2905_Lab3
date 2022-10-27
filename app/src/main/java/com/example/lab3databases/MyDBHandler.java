@@ -40,6 +40,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return db.rawQuery(query, null); // returns "cursor" all products from the table
     }
 
+
     public void addProduct(Product product) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -51,70 +52,44 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
+    //loop through all items in the name column
+    //put all products in the column into their own grouping
+    //display that grouping
 
     //check through all names and prices, group identical items together
-    public Product findProduct(String productName, double productPrice){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public Cursor findProduct(String productName, double productPrice){
+        SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\" AND " + COLUMN_PRODUCT_PRICE + " = \"" + productPrice + "\"";
         Cursor cursor = db.rawQuery(query, null);
 
-        Product product = new Product();
 
-        if(cursor.moveToFirst()){
-            product.setProductName(cursor.getString(1));
-            product.setPrice(Double.parseDouble(cursor.getString(2)));
-        }else{
-            product = null;
-        }
-
-        db.close();
-        return product;
+        return cursor;
     }
 
     //get it to check all names and group all duplicates together
-    public Product findProduct(String productName){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public Cursor findProduct(String productName){
+        SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
-        Product product = new Product();
 
-        if(cursor.moveToFirst()){
-            product.setProductName(cursor.getString(1));
-            product.setPrice(Double.parseDouble(cursor.getString(2)));
-            cursor.close();
-        }else{
-            product = null;
-        }
-
-        db.close();
-        return product;
+        return cursor;
 
     }
 
     //get it to check through all prices and group them together
-    public Product findProduct(double productPrice){
-        SQLiteDatabase db = this.getWritableDatabase();
+    public Cursor findProduct(double productPrice){
+        SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_PRICE + " = \"" + productPrice + "\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
-        Product product = new Product();
 
-        if(cursor.moveToFirst()){
-            product.setProductName(cursor.getString(1));
-            product.setPrice(Double.parseDouble(cursor.getString(2)));
-            cursor.close();
-        }else{
-            product = null;
-        }
-
-        db.close();
-        return product;
+        return cursor;
 
     }
 

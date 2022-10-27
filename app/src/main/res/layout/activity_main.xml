@@ -41,10 +41,11 @@
 
     <LinearLayout
         android:id="@+id/btnLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400dp"
+        android:layout_height="47dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/infoLayout">
 
@@ -54,8 +55,16 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/add"
-            android:onClick="newProduct"/>
+            android:onClick="newProduct"
+            android:text="@string/add" />
+        <Button
+            android:id="@+id/viewAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:onClick="newProduct"
+            android:text="all" />
 
         <Button
             android:id="@+id/findBtn"
@@ -63,8 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/find"
-            android:onClick="lookupProduct"/>
+            android:onClick="lookupProduct"
+            android:text="@string/find" />
 
         <Button
             android:id="@+id/deleteBtn"
@@ -72,8 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="@string/delete"
-            android:onClick="removeProduct"/>
+            android:onClick="removeProduct"
+            android:text="del" />
     </LinearLayout>
 
     <LinearLayout

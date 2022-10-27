@@ -15,11 +15,12 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     TextView productId;
     EditText productName, productPrice;
-    Button addBtn, findBtn, deleteBtn;
+    Button addBtn, findBtn, deleteBtn, viewAll;
     ListView productListView;
 
     ArrayList<String> productList;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         addBtn = findViewById(R.id.addBtn);
         findBtn = findViewById(R.id.findBtn);
         deleteBtn = findViewById(R.id.deleteBtn);
+        viewAll = findViewById(R.id.viewAll);
 
         // listview
         productListView = findViewById(R.id.productListView);
@@ -67,12 +69,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewProducts();
+            }
+        });
+
         findBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "Find product", Toast.LENGTH_SHORT).show();
                 lookupProduct(v);
-                viewProducts();
             }
         });
 
@@ -119,33 +127,45 @@ public class MainActivity extends AppCompatActivity {
         productPrice.setText("");
     }
 
+    //get it to send the request to the correct finProduct version
     @SuppressLint("SetTextI18n")
     public void lookupProduct(View view){
         MyDBHandler dbHandler = new MyDBHandler(this);
-        Product product = new Product();
+        Cursor cursor;
+        List<Product> finding = new ArrayList<Product>();
 
         if(productPrice.length() == 0) {
-            product = dbHandler.findProduct(productName.getText().toString());
+            cursor =  dbHandler.findProduct(productName.getText().toString());
         }else if(productName.length() == 0){
-            product = dbHandler.findProduct(Double.parseDouble(productPrice.getText().toString()));
+            cursor = dbHandler.findProduct(Double.parseDouble(productPrice.getText().toString()));
         }else{
-            product = dbHandler.findProduct(productName.getText().toString(), Double.parseDouble(productPrice.getText().toString()));
+            cursor = dbHandler.findProduct(productName.getText().toString(), Double.parseDouble(productPrice.getText().toString()));
         }
 
-        if(product != null){
-            productId.setText(String.valueOf(product.getId()));
-            productPrice.setText(String.valueOf(product.getProductPrice()));
-        }else{
-            productId.setText("No Match Found");
+        //right now, this is setting the price box to equal the price of the first match
+        //not sure why they had us do this?
+        if (cursor.getCount() == 0) {
+            productList.clear();
+            Toast.makeText(MainActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
         }
+        else {
+            while (cursor.moveToNext()) {
+                productList.clear();
+                Toast.makeText(MainActivity.this, "In List addition", Toast.LENGTH_SHORT).show();
+                productList.add(cursor.getString(1) + ": " +cursor.getString(2));
+            }
+        }
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productList);
+        productListView.setAdapter(adapter);
     }
 
+    //Deletion is done
     @SuppressLint("SetTextI18n")
     public void removeProduct(View view){
         MyDBHandler dbHandler = new MyDBHandler(this);
 
         boolean result = dbHandler.deleteProduct(productName.getText().toString());
-//Deletion is done
+
         if(result){
             productId.setText("Record Deleted");
             productName.setText("");
