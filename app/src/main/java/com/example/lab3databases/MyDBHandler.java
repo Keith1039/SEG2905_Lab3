@@ -60,7 +60,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public Cursor findProduct(String productName, double productPrice){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\" AND " + COLUMN_PRODUCT_PRICE + " = \"" + productPrice + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " LIKE \"" + productName + "%\" AND " + COLUMN_PRODUCT_PRICE + " = \"" + productPrice + "%\"";
         Cursor cursor = db.rawQuery(query, null);
 
 
@@ -71,7 +71,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public Cursor findProduct(String productName){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " = \"" + productName + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_NAME + " LIKE \"" + productName + "%\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -84,7 +84,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public Cursor findProduct(double productPrice){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_PRICE + " = \"" + productPrice + "\"";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_PRODUCT_PRICE + " LIKE \"" + productPrice + "%\"";
 
         Cursor cursor = db.rawQuery(query, null);
 
